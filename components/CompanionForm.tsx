@@ -21,15 +21,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { subjects } from "@/constants";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
+import { createCompanion } from "@/lib/actions/companion.actions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Companion is required"}),
-  subject: z.string().min(1, { message: "Subject is required"}),
-  topic: z.string().min(1, { message: "Topic is required"}),
-  voice: z.string().min(1, { message: "Voice is required"}),
-  style: z.string().min(1, { message: "Style is required"}),
-  duration: z.coerce.number().min( 1, { message: "Duration is required"}),
+  name: z.string().min(1, { message: "Companion is required." }),
+  subject: z.string().min(1, { message: "Subject is required." }),
+  topic: z.string().min(1, { message: "Topic is required." }),
+  voice: z.string().min(1, { message: "Voice is required." }),
+  style: z.string().min(1, { message: "Style is required." }),
+  duration: z.coerce.number().min(1, { message: "Duration is required." }),
 });
 
 const CompanionForm = () => {
@@ -42,14 +44,19 @@ const CompanionForm = () => {
       voice: "",
       style: "",
       duration: 15,
-
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) =>{
-    
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+
+    if (companion) {
+      redirect(`/companions/${companion.id}`);
+    } else {
+      console.log("Failed to create a companion");
+      redirect("/");
+    }
+  };
 
   return (
     <Form {...form}>
@@ -71,7 +78,6 @@ const CompanionForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="subject"
@@ -85,13 +91,13 @@ const CompanionForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="input capitalize">
-                    <SelectValue placeholder="Select a subject" />
+                    <SelectValue placeholder="Select the subject" />
                   </SelectTrigger>
                   <SelectContent>
                     {subjects.map((subject) => (
                       <SelectItem
-                        key={subject}
                         value={subject}
+                        key={subject}
                         className="capitalize"
                       >
                         {subject}
@@ -104,7 +110,6 @@ const CompanionForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="topic"
@@ -113,7 +118,7 @@ const CompanionForm = () => {
               <FormLabel>What should the companion help with?</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Ex: Derivates & Integrals"
+                  placeholder="Ex. Derivates & Integrals"
                   {...field}
                   className="input"
                 />
@@ -148,7 +153,6 @@ const CompanionForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="style"
@@ -193,15 +197,12 @@ const CompanionForm = () => {
             </FormItem>
           )}
         />
-        <Button 
-            type="submit"
-            className="w-full cursor-pointer"
-        >
-            Build your companion
+        <Button type="submit" className="w-full cursor-pointer">
+          Build Your Companion
         </Button>
       </form>
     </Form>
   );
-}
+};
 
-export default CompanionForm
+export default CompanionForm;
