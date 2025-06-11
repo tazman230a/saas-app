@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+//import { usePathname } from "next/navigation";
 
 interface CompanionCardProps {
     id: string;
@@ -11,6 +12,7 @@ interface CompanionCardProps {
 }
 
 const CompanionCard = ({ id, name, topic, subject, duration, color}: CompanionCardProps) => {
+ 
   return (
     <article className="companion-card" style={{ backgroundColor: color}}>
         <div className="flex justify-between items-center">
@@ -36,7 +38,7 @@ const CompanionCard = ({ id, name, topic, subject, duration, color}: CompanionCa
             <p className="text-sm">{duration} minutes</p>
         </div>
 
-        <Link href={`/companion/${id}`} className="w-full">
+        <Link href={`/companions/${id}`} className="w-full">
           <button className="btn-primary w-full justify-center">Launch Lesson</button>
         </Link>
 

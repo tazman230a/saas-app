@@ -1,27 +1,29 @@
-
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { cn, getSubjectColor } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
-interface CompanionListProps {
+interface CompanionsListProps {
   title: string;
-  companions: Companion[];
+  companions?: Companion[];
   classNames?: string;
 }
 
-const CompanionList = ({ title, companions, classNames }: CompanionListProps) => {
+const CompanionsList = ({
+  title,
+  companions,
+  classNames,
+}: CompanionsListProps) => {
   return (
     <article className={cn("companion-list", classNames)}>
-      <h2 className="font-bold text-3xl">Recent Session</h2>
+      <h2 className="font-bold text-3xl">{title}</h2>
 
       <Table>
         <TableHeader>
@@ -48,7 +50,6 @@ const CompanionList = ({ title, companions, classNames }: CompanionListProps) =>
                         height={35}
                       />
                     </div>
-
                     <div className="flex flex-col gap-2">
                       <p className="font-bold text-2xl">{name}</p>
                       <p className="text-lg">{topic}</p>
@@ -75,10 +76,9 @@ const CompanionList = ({ title, companions, classNames }: CompanionListProps) =>
               <TableCell>
                 <div className="flex items-center gap-2 w-full justify-end">
                   <p className="text-2xl">
-                    {duration} {' '}
-                    <span className="max-md:hidden">mins</span>
+                    {duration} <span className="max-md:hidden">mins</span>
                   </p>
-                  <Image 
+                  <Image
                     src="/icons/clock.svg"
                     alt="minutes"
                     width={14}
@@ -93,6 +93,6 @@ const CompanionList = ({ title, companions, classNames }: CompanionListProps) =>
       </Table>
     </article>
   );
-}
+};
 
-export default CompanionList
+export default CompanionsList;

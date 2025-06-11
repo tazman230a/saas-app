@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { formUrlQuery, removeKeysFromUrlQuery } from "@jsmastery/utils";
 
-const Searchinput = () => {
+
+const SearchInput = () => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("topic") || "";
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -24,7 +25,7 @@ const Searchinput = () => {
 
         router.push(newUrl, { scroll: false });
       } else {
-        if (pathname === "/companions") {
+        if (pathname === "/components/CompanionSession.tsx") {
           const newUrl = removeKeysFromUrlQuery({
             params: searchParams.toString(),
             keysToRemove: ["topic"],
@@ -38,20 +39,14 @@ const Searchinput = () => {
 
   return (
     <div className="relative border border-black rounded-lg items-center flex gap-2 px-2 py-1 h-fit">
-      <Image 
-        src="/icons/search.svg"
-        alt="search"
-        width={15}
-        height={15}
-      />
-      <input 
+      <Image src="/icons/search.svg" alt="search" width={15} height={15} />
+      <input
         placeholder="Search companions..."
         className="outline-none"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
     </div>
-  )
-}
-
-export default Searchinput
+  );
+};
+export default SearchInput;
