@@ -9,7 +9,7 @@ import { getUserCompanions, getUserSessions } from "@/lib/actions/companion.acti
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import CompanionSession from "../companions/[id]/page";
+//import CompanionSession from "../companions/[id]/page";
 import CompanionsList from "@/components/CompanionList";
 
 const Profile = async () => {
@@ -72,6 +72,14 @@ const Profile = async () => {
           <AccordionTrigger className="text-2xl font-bold">Recent Sessions</AccordionTrigger>
           <AccordionContent>
             <CompanionsList title="Recent Sessions" companions={sessionHistory}/>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="companions">
+          <AccordionTrigger className="text-2xl font-bold">
+            My Companions {`(${companions.length})`}
+          </AccordionTrigger>
+          <AccordionContent>
+            <CompanionsList title="My Companions" companions={companions}/>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
